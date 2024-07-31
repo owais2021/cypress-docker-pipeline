@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_HUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIALS')
         CYPRESS_ENV = 'qa'
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
-            }
-        }
+    //     stage('Clone Repository') {
+    //         steps {
+    //             git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
+    //         }
+    //     }
 
         stage('Build Docker Image') {
             steps {
