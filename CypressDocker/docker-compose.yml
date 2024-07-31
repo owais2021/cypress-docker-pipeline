@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  cypress:
+    build: .
+    volumes:
+      - .:/e2e
+    working_dir: /e2e
+    command: ["npx", "cypress", "run"]
+    environment:
+      - CYPRESS_ENV=qa

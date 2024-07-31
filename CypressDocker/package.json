@@ -1,0 +1,22 @@
+{
+  "Created by ": "Owais Khan",
+  "name": "cypress-automation-framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "triggerAllTests-headless": "npx cypress run",
+    "triggerAllTests-headed": "npx cypress run --headed",
+    "triggerAllTests-chrome": "npx cypress run --browser chrome"
+  },
+  "devDependencies": {
+    "cypress": "^13.13.1",
+    "cypress-multi-reporters": "^1.6.4",
+    "mocha-junit-reporter": "^2.2.1",
+    "mochawesome-merge": "^4.3.0"
+  },
+  "dependencies": {
+    "chai": "^5.1.1",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "socket.io": "^4.7.5"
+  }
+}
