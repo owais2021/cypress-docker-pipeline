@@ -14,7 +14,7 @@ pipeline {
         //     }
         // }
 
-        stage('Build Docker Image') {
+         stage('Build Docker Image') {
             steps {
                 script {
                     docker.build('owaiskhan216/my-cypress-tests:latest')
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
-                        docker.image('owaiskhan216/my-cypress-tests:latest').push()
+                        docker.image('owaiskhan216/my-cypress-tests:latest').push('latest')
                     }
                 }
             }
@@ -35,7 +35,7 @@ pipeline {
         stage('Run Cypress Tests') {
             steps {
                 script {
-                    def workspacePath = "${WORKSPACE}".replace('\\', '/')
+                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/')
                     docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:/workspace -w /workspace") {
                         sh 'npx cypress run'
                     }
