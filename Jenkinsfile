@@ -7,11 +7,12 @@ pipeline {
     }
 
     stages {
-    //     stage('Clone Repository') {
-    //         steps {
-    //             git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
-    //         }
-    //     }
+        // Uncomment this stage if you need to clone the repository
+        // stage('Clone Repository') {
+        //     steps {
+        //         git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
@@ -34,7 +35,8 @@ pipeline {
         stage('Run Cypress Tests') {
             steps {
                 script {
-                    docker.image('owaiskhan216/my-cypress-tests:latest').inside {
+                    def workspacePath = "${WORKSPACE}".replace('\\', '/')
+                    docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:/workspace -w /workspace") {
                         sh 'npx cypress run'
                     }
                 }
