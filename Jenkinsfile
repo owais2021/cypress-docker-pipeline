@@ -8,11 +8,11 @@ pipeline {
 
     stages {
         // Uncomment this stage if you need to clone the repository
-        // stage('Clone Repository') {
-        //     steps {
-        //         git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
-        //     }
-        // }
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
+            }
+        }
 
          stage('Build Docker Image') {
             steps {
