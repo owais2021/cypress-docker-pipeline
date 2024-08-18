@@ -35,8 +35,8 @@ pipeline {
         stage('Run Cypress Tests') {
             steps {
            script {
-                    // Convert Windows path to Docker-friendly Unix-style path
-                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:/', '/c/')
+                    // Convert the workspace path to Unix-style format for Docker
+                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:', '/c')
 
                     // Run Cypress tests inside the Docker container
                     docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:${workspacePath} -w ${workspacePath}") {
