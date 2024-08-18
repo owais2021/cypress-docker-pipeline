@@ -2,24 +2,51 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_WORKDIR = '/c/ProgramData/Jenkins/.jenkins/workspace/Cypress_Integration_Docker/cypress-integration-docker/'
-        DOCKER_IMAGE = 'owaiskhan216/my-cypress-tests:latest'
+        DOCKER_HUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIALS')
+        CYPRESS_ENV = 'qa'
     }
 
     stages {
-        stage('Build Docker Image') {
+        // // Uncomment this stage if you need to clone the repository
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/owais2021/cypress-docker-pipeline.git', branch: 'master'
+            }
+        }
+
+         stage('Build Docker Image') {
             steps {
                 script {
-                    // Converting the Windows path to Unix path
-                    def workspaceUnixPath = "${env.WORKSPACE}".replaceAll('\\\\', '/').replaceAll('C:', '/c')
+                    docker.build('owaiskhan216/my-cypress-tests:latest')
+                }
+            }
+        }
 
-                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnixPath}:${DOCKER_WORKDIR} -w ${DOCKER_WORKDIR}") {
-                        sh 'npm install'
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
+                        docker.image('owaiskhan216/my-cypress-tests:latest').push('latest')
+                    }
+                }
+            }
+        }
+
+        stage('Run Cypress Tests') {
+            steps {
+                script {
+                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/')
+                    docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:/workspace -w /workspace") {
                         sh 'npx cypress run'
                     }
                 }
             }
         }
     }
-    
- }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
