@@ -35,16 +35,12 @@ pipeline {
         stage('Run Cypress Tests') {
             steps {
            script {
-                    // Jenkins workspace path as-is (Windows-style)
-                    def workspacePath = "${env.WORKSPACE}"
-
-                    // Construct the Docker volume and working directory parameters
-                    def dockerVolume = "-v ${workspacePath}:${workspacePath}"
-                    def dockerWorkdir = "-w ${workspacePath}"
+                    // Convert Windows path to Docker-friendly Unix-style path
+                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:/', '/c/')
 
                     // Run Cypress tests inside the Docker container
-                    docker.image('owaiskhan216/my-cypress-tests:latest').inside("${dockerVolume} ${dockerWorkdir}") {
-                        bat 'npx cypress run'
+                    docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:${workspacePath} -w ${workspacePath}") {
+                        sh 'npx cypress run'
                     }
                 }
             }
