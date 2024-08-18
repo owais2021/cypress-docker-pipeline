@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_HUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIALS')
-        CYPRESS_ENV = 'qa'
-    }
+    // environment {
+    //     DOCKER_HUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIALS')
+    //     CYPRESS_ENV = 'qa'
+    // }
 
     stages {
         // Uncomment this stage if you need to clone the repository
