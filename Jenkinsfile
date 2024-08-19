@@ -32,16 +32,19 @@ pipeline {
     //         }
     //     }
 
-    stage('Run Cypress Tests') {
-        steps {
-        script {
-            def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:/', '/c/')
-            docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:/workspace -w /workspace") {
-                sh 'npx cypress run'
+       stage('Run Cypress Tests') {
+            steps {
+                script {
+                    // Convert the workspace path from Windows format to Unix format
+                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:/', '/c/')
+                    
+                    // Run the Cypress tests inside the Docker container
+                    docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:/workspace -w /workspace") {
+                        sh 'npx cypress run'
+                    }
+                }
             }
         }
-        }
-    }
     
 }
 
