@@ -38,14 +38,19 @@ pipeline {
             steps {
                 script {
                     def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:', '/c')
+                    
+                    // Pull the Docker image
+                    sh "docker pull owaiskhan216/my-cypress-tests:latest"
 
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
-                        def app = docker.image('owaiskhan216/my-cypress-tests:latest')
-                        app.pull()
-                        app.inside("-e CYPRESS_ENV=$CYPRESS_ENV -w ${workspacePath} -v ${workspacePath}:${workspacePath}") {
-                            sh 'npx cypress run'
-                        }
-                    }
+                    // Run the Cypress tests inside the Docker container
+                    sh """
+                        docker run --rm \
+                        -e CYPRESS_ENV=${CYPRESS_ENV} \
+                        -v ${workspacePath}:${workspacePath} \
+                        -w ${workspacePath} \
+                        owaiskhan216/my-cypress-tests:latest \
+                        npx cypress run
+                    """
                 }
             }
         }
