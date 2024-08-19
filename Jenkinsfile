@@ -6,7 +6,7 @@ pipeline {
     //     CYPRESS_ENV = 'qa'
     // }
 
-    // stages {
+    stages {
     //     // // Uncomment this stage if you need to clone the repository
     //     stage('Clone Repository') {
     //         steps {
@@ -32,15 +32,17 @@ pipeline {
     //         }
     //     }
 
-       stage('Run Cypress Tests') {
-    steps {
+    stage('Run Cypress Tests') {
+        steps {
         script {
             def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:/', '/c/')
             docker.image('owaiskhan216/my-cypress-tests:latest').inside("-v ${workspacePath}:/workspace -w /workspace") {
                 sh 'npx cypress run'
             }
         }
+        }
     }
+    
 }
 
     
