@@ -40,12 +40,13 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
                         def app = docker.image('owaiskhan216/my-cypress-tests:latest')
                         app.pull()
-                        app.run('-e CYPRESS_ENV=$CYPRESS_ENV')
+                        app.inside('-e CYPRESS_ENV=$CYPRESS_ENV') {
+                            sh 'npx cypress run'
                     }
                 }
             }
         }
-
+    }
         //   stage('Run Cypress Tests') {
         //           }
     
