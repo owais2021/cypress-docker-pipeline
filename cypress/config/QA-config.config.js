@@ -1,4 +1,4 @@
 module.exports = {
-  baseUrl: 'https://example.cypress.io',
+  baseUrl: 'https://www.amazon.ae/',
   // other configuration options
 };

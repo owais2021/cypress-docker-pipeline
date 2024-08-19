@@ -1,4 +1,4 @@
 module.exports = {
-  baseUrl: 'https://stage.example.com',
+  baseUrl: 'https://www.amazon.de/',
   // other configuration options
 };

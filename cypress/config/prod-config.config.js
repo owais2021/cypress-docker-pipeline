@@ -1,4 +1,4 @@
 module.exports = {
-  baseUrl: 'https://prod.example.com',
+  baseUrl: 'https://www.amazon.com/',
   // other configuration options
 };

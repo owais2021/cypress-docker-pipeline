@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('DOCKER_HUB_CREDENTIALS')
-        CYPRESS_ENV = 'qa'
+        CYPRESS_ENV = 'stage'
     }
 
 
@@ -57,7 +57,7 @@ pipeline {
                 }
             }
         }
-               
+
     }
 
     
