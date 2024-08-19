@@ -34,19 +34,21 @@ pipeline {
 
 
        // / Pull and Run Docker Image from Docker Hub
-        stage('Run Docker Image from Docker Hub') {
+       stage('Run Cypress Tests') {
             steps {
                 script {
+                    def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:', '/c')
+
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_HUB_CREDENTIALS') {
                         def app = docker.image('owaiskhan216/my-cypress-tests:latest')
                         app.pull()
-                        app.inside('-e CYPRESS_ENV=$CYPRESS_ENV') {
+                        app.inside("-e CYPRESS_ENV=$CYPRESS_ENV -w ${workspacePath} -v ${workspacePath}:${workspacePath}") {
                             sh 'npx cypress run'
+                        }
                     }
                 }
             }
         }
-    }
         //   stage('Run Cypress Tests') {
         //           }
     
