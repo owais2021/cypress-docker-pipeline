@@ -40,15 +40,17 @@ pipeline {
                     def workspacePath = "${env.WORKSPACE}".replace('\\', '/').replace('C:', '/c')
                     
                     // Pull the Docker image
-                    sh "docker pull owaiskhan216/my-cypress-tests:latest"
+                    powershell """
+                        docker pull owaiskhan216/my-cypress-tests:latest
+                    """
 
                     // Run the Cypress tests inside the Docker container
-                    sh """
-                        docker run --rm \
-                        -e CYPRESS_ENV=${CYPRESS_ENV} \
-                        -v ${workspacePath}:${workspacePath} \
-                        -w ${workspacePath} \
-                        owaiskhan216/my-cypress-tests:latest \
+                    powershell """
+                        docker run --rm `
+                        -e CYPRESS_ENV=${CYPRESS_ENV} `
+                        -v ${workspacePath}:${workspacePath} `
+                        -w ${workspacePath} `
+                        owaiskhan216/my-cypress-tests:latest `
                         npx cypress run
                     """
                 }
