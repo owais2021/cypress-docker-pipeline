@@ -42,11 +42,12 @@ pipeline {
         }
     }
 }
-    }
+
+    
 
     // post {
     //     always {
     //         cleanWs()
     //     }
     // }
-// }
+}
